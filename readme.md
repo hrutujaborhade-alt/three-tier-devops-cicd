@@ -41,6 +41,7 @@ Developer
              v
           MySQL / RDS
 
+```
 
 ## Dockerfiles
 
@@ -70,3 +71,38 @@ The following images were created and tested on the EC2 test server:
 skillpulse-backend:1.0
 skillpulse-frontend:1.0
 mysql:8.4
+```
+
+## Docker Compose
+
+Docker Compose is used to run and manage the complete three-tier application as multiple containers.
+
+Instead of starting each container separately using `docker run`, Docker Compose allows us to define the services, networking, environment variables, volumes, health checks and dependencies in a single `docker-compose.yml` file.
+
+### Services
+
+The Compose setup contains three services:
+
+| Service | Image | Port | Purpose |
+|---|---|---|---|
+| db | mysql:8.4 | 3306 | Application database |
+| backend | skillpulse-backend:1.0 | 8080 | Go backend/API |
+| frontend | skillpulse-frontend:1.0 | 80 | Nginx frontend/reverse proxy |
+
+### Application Flow
+
+```text
+Internet
+   |
+   | HTTP :80
+   v
+Nginx / Frontend
+   |
+   | backend:8080
+   v
+Go Backend
+   |
+   | db:3306
+   v
+MySQL
+```
