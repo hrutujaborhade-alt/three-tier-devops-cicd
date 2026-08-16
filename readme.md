@@ -72,6 +72,30 @@ skillpulse-backend:1.0
 skillpulse-frontend:1.0
 mysql:8.4
 ```
+![Docker Images](images/01-docker-images.png)
+
+## Environment Variables
+
+Docker Compose uses environment variables for database configuration.
+
+Example:
+
+```env
+MYSQL_ROOT_PASSWORD=********
+DB_NAME=skillpulse
+DB_USER=skillpulse
+DB_PASSWORD=********
+```
+
+The actual `.env` file contains sensitive credentials and is not committed to GitHub.
+
+The `.env` file is added to `.gitignore`:
+
+```text
+.env
+```
+
+![Gitignore and Environment Variables](images/03-gitignore-env.png)
 
 ## Docker Compose
 
@@ -106,3 +130,59 @@ Go Backend
    v
 MySQL
 ```
+![Docker Compose Configuration](images/05-docker-compose-file.png)
+
+![Docker Compose Version](images/02-docker-compose-version.png)
+
+
+## Docker Compose Validation
+
+Validate the Compose configuration:
+
+```bash
+docker compose config -q
+![Docker Compose Validation](images/06-compose-validation.png)
+```
+
+![Docker Compose Services](images/08-compose-ps.png)
+
+# MySQL Database
+
+MySQL is used as the database layer of the application.
+
+The Docker Compose configuration uses:
+
+```text
+mysql:8.4
+```
+
+# Nginx Reverse Proxy
+
+Nginx is used as the frontend web server and reverse proxy.
+
+The Nginx configuration is stored in:
+
+```text
+nginx/nginx.conf
+```
+
+![Nginx Configuration](images/09-nginx-config.png)
+
+![Nginx Backend Health](images/10-nginx-backend-health.png)
+
+# Application Testing
+
+## Backend Health Check
+
+The backend service was tested directly using:
+
+```bash
+curl http://localhost:8080/health
+```
+![Backend Health](images/11-backend-health.png)
+
+![MySQL Tables](images/12-mysql-tables.png)
+
+![API Response](images/14-api-response.png)
+
+![Application Browser](images/15-application-browser.png)
