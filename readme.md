@@ -130,7 +130,6 @@ Go Backend
    v
 MySQL
 ```
-![Docker Compose Configuration](images/05-docker-compose-file.png)
 
 ![Docker Compose Version](images/02-docker-compose-version.png)
 
@@ -141,8 +140,9 @@ Validate the Compose configuration:
 
 ```bash
 docker compose config -q
-![Docker Compose Validation](images/06-compose-validation.png)
 ```
+![Docker Compose Validation](images/06-compose-validation.png)
+
 
 ![Docker Compose Services](images/08-compose-ps.png)
 
@@ -155,6 +155,7 @@ The Docker Compose configuration uses:
 ```text
 mysql:8.4
 ```
+![MySQL Tables](images/12-mysql-tables.png)
 
 # Nginx Reverse Proxy
 
@@ -166,9 +167,9 @@ The Nginx configuration is stored in:
 nginx/nginx.conf
 ```
 
-![Nginx Configuration](images/09-nginx-config.png)
-
 ![Nginx Backend Health](images/10-nginx-backend-health.png)
+
+![API Response](images/14-api-response.png)
 
 # Application Testing
 
@@ -181,8 +182,5 @@ curl http://localhost:8080/health
 ```
 ![Backend Health](images/11-backend-health.png)
 
-![MySQL Tables](images/12-mysql-tables.png)
-
-![API Response](images/14-api-response.png)
 
 ![Application Browser](images/15-application-browser.png)
