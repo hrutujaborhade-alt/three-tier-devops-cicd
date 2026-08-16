@@ -157,6 +157,7 @@ The containers were started successfully and application connectivity was verifi
 
 ### Docker Compose Running
 
+![Docker Compose](images/07-docker-compose-up.png).
 
 ### Running Containers
 
@@ -213,15 +214,14 @@ Two private ECR repositories were created:
 
 ### ECR Repositories
 
-![ECR Repositories](images/ecr-repositories.png)
+![ECR Repositories](images/16-ECR-REPO.png).
 
-### Backend Image in ECR
+### ECR Authentication Screenshot
 
-![Backend ECR Image](images/ecr-backend-image.png)
-
-### Frontend Image in ECR
-
-![Frontend ECR Image](images/ecr-frontend-image.png)
+```bash
+aws ecr get-login-password ...
+```
+![ECR Login](19-ecr-login.png).
 
 ### Docker Image Push to ECR
 
@@ -238,12 +238,12 @@ Docker Push
      ↓
 Amazon ECR
 ```
+### Backend Image in ECR
+
+![Backend ECR Image](images/17-backend-image.png).
+
+### Frontend Image in ECR
+
+![Frontend ECR Image](images/18-frontend-image.png).
 
 
-### 5. ECR Authentication Screenshot
-
-If you captured the terminal while doing:
-
-```bash
-aws ecr get-login-password ...
-```
