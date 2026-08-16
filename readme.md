@@ -143,6 +143,22 @@ docker compose config -q
 ```
 ![Docker Compose Validation](images/06-compose-validation.png)
 
+## Docker Compose Testing
+
+The application was containerized and tested using Docker Compose.
+
+The Docker Compose setup includes:
+
+- Frontend
+- Backend
+- MySQL database
+
+The containers were started successfully and application connectivity was verified.
+
+### Docker Compose Running
+
+
+### Running Containers
 
 ![Docker Compose Services](images/08-compose-ps.png)
 
@@ -184,3 +200,50 @@ curl http://localhost:8080/health
 
 
 ![Application Browser](images/15-application-browser.png)
+
+
+## Amazon ECR
+
+Amazon Elastic Container Registry (ECR) is used to store and manage the Docker images used by the application.
+
+Two private ECR repositories were created:
+
+- `three-tier-frontend`
+- `three-tier-backend`
+
+### ECR Repositories
+
+![ECR Repositories](images/ecr-repositories.png)
+
+### Backend Image in ECR
+
+![Backend ECR Image](images/ecr-backend-image.png)
+
+### Frontend Image in ECR
+
+![Frontend ECR Image](images/ecr-frontend-image.png)
+
+### Docker Image Push to ECR
+
+The Docker images were tagged with the ECR repository URI and pushed to Amazon ECR.
+
+```text
+Docker Image
+     ↓
+ECR Authentication
+     ↓
+Docker Tag
+     ↓
+Docker Push
+     ↓
+Amazon ECR
+```
+
+
+### 5. ECR Authentication Screenshot
+
+If you captured the terminal while doing:
+
+```bash
+aws ecr get-login-password ...
+```
