@@ -246,36 +246,47 @@ Amazon ECR
 
 ![Frontend ECR Image](images/18-frontend-image.png).
 
-## Jenkins CI/CD
+## CI/CD with Jenkins
 
 Jenkins is used to automate the CI/CD process for the application.
 
-The Jenkins server is hosted on an AWS EC2 instance. Jenkins will be used to:
+The Jenkins server is hosted on an AWS EC2 instance and is configured to integrate with the GitHub repository.
+
+### Jenkins Responsibilities
 
 - Checkout source code from GitHub
-- Build the application Docker images
+- Build Docker images
 - Run Docker Compose based application testing
 - Authenticate with Amazon ECR
-- Push application images to Amazon ECR
-- Deploy the application to Amazon EKS
+- Tag Docker images
+- Push images to Amazon ECR
+- Later deploy the application to Amazon EKS
 
-### Jenkins Setup
+### Jenkins Dashboard
 
-Jenkins was installed and configured on an Amazon Linux EC2 instance.
+![Jenkins Dashboard](images/jenkins-dashboard.png)
 
-The Jenkins server is accessible through port `8080`, with access restricted through the EC2 Security Group.
+### Jenkins Pipeline
 
-### Jenkins Architecture
+The planned pipeline flow is:
 
 ```text
-GitHub Repository
-       ↓
-     Jenkins
-       ↓
- Docker Build & Test
-       ↓
-      ECR
-       ↓
-      EKS
+GitHub
+   ↓
+Jenkins
+   ↓
+Checkout
+   ↓
+Docker Build
+   ↓
+Docker Compose Test
+   ↓
+ECR Login
+   ↓
+Docker Tag
+   ↓
+Docker Push
+   ↓
+EKS Deployment
 ```
 
