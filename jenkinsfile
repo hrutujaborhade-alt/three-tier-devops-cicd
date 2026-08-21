@@ -1,0 +1,81 @@
+
+    environment {
+        AWS_REGION = 'us-east-1'
+        AWS_ACCOUNT_ID = '<YOUR_ACCOUNT_ID>'
+        ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+
+        BACKEND_REPO = "${ECR_REGISTRY}/three-tier-backend"
+        FRONTEND_REPO = "${ECR_REGISTRY}/three-tier-frontend"
+
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                sh '''
+                    docker build -t skillpulse-backend:${IMAGE_TAG} ./backend
+                    docker build -t skillpulse-frontend:${IMAGE_TAG} ./frontend
+                '''
+            }
+        }
+
+        stage('Docker Compose Test') {
+            steps {
+                sh '''
+                    docker compose up -d
+                    sleep 20
+                    docker compose ps
+                '''
+            }
+        }
+
+        stage('ECR Login') {
+            steps {
+                sh '''
+                    aws ecr get-login-password --region ${AWS_REGION} | \
+                    docker login --username AWS --password-stdin ${ECR_REGISTRY}
+                '''
+            }
+        }
+
+        stage('Tag Images') {
+            steps {
+                sh '''
+                    docker tag skillpulse-backend:${IMAGE_TAG} ${BACKEND_REPO}:${IMAGE_TAG}
+                    docker tag skillpulse-frontend:${IMAGE_TAG} ${FRONTEND_REPO}:${IMAGE_TAG}
+                '''
+            }
+        }
+
+        stage('Push Images to ECR') {
+            steps {
+                sh '''
+                    docker push ${BACKEND_REPO}:${IMAGE_TAG}
+                    docker push ${FRONTEND_REPO}:${IMAGE_TAG}
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker compose down || true'
+        }
+
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check the failed stage and logs.'
+        }
+    }
+}
