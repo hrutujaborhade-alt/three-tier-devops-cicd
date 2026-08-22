@@ -78,4 +78,4 @@
             echo 'Pipeline failed. Check the failed stage and logs.'
         }
     }
-}
+
